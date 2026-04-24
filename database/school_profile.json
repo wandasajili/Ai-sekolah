@@ -1,0 +1,35 @@
+{
+  "name": "SMK MADINATUL QURAN",
+  "vision": "Menjadi lembaga pendidikan kejuruan yang unggul dalam mencetak generasi Qurani, Beradab, dan Mandiri di bidang teknologi.",
+  "mission": [
+    "Menyelenggarakan pendidikan kejuruan berbasis IT yang selaras dengan tuntutan dunia industri.",
+    "Mengintegrasikan kurikulum pesantren dengan kurikulum nasional.",
+    "Membekali siswa dengan hafalan Al-Quran dan pemahaman agama yang mendalam.",
+    "Mendorong jiwa kewirausahaan dan kreativitas siswa."
+  ],
+  "departments": [
+    {
+      "id": "rpl",
+      "name": "Rekayasa Perangkat Lunak (RPL)",
+      "description": "Fokus pada pengembangan software, web development, dan mobile apps."
+    },
+    {
+      "id": "tkj",
+      "name": "Teknik Komputer dan Jaringan (TKJ)",
+      "description": "Fokus pada infrastruktur jaringan, server, dan keamanan siber."
+    }
+  ],
+  "facilities": [
+    "Lab Komputer High-End",
+    "Asrama Representatif",
+    "Masjid Jami Madinatul Quran",
+    "Perpustakaan Digital",
+    "Lapangan Olahraga"
+  ],
+  "contact": {
+    "address": "Jl. Raya Jonggol No. 123, Bogor, Jawa Barat",
+    "phone": "+62 812-3456-7890",
+    "email": "info@madinatulquran.sch.id",
+    "website": "www.madinatulquran.sch.id"
+  }
+}

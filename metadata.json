@@ -1,0 +1,6 @@
+{
+  "name": "AI Agent SMK Madinatul Quran",
+  "description": "AI-powered school assistant providing profile information, news, and intelligent chat for students and parents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["Chatbot", "School Info Search", "News Reader"]
+}
