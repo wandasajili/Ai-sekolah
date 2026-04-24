@@ -5,6 +5,7 @@ from agent.search import SearchAgent
 from agent.news import NewsAgent
 from utils.logger import Logger
 import uvicorn
+import os
 
 app = FastAPI(title="SMK Madinatul Quran AI Agent API")
 
@@ -36,5 +37,5 @@ async def chat(request: ChatRequest):
     return {"response": response}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=3000)
- lands
+    PORT = int(os.environ.get("PORT", 3000))
+    uvicorn.run(app, host="0.0.0.0", port=PORT)

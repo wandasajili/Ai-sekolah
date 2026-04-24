@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from "express";
+import cors from "cors";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { ChatbotAgent } from "./src/agent/chatbot.ts";
 import { SearchAgent } from "./src/agent/search.ts";
 import { NewsAgent } from "./src/agent/news.ts";
@@ -9,8 +9,12 @@ import { Logger } from "./src/utils/logger.ts";
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
 
+  // ✅ FIX UTAMA: pakai PORT dari Railway
+  const PORT = process.env.PORT || 3000;
+
+  // Middleware
+  app.use(cors());
   app.use(express.json());
 
   // Initialize Agents
@@ -19,14 +23,18 @@ async function startServer() {
   const newsAgent = new NewsAgent();
   const logger = new Logger();
 
-  // API Routes
+  // ================= API ROUTES =================
+
+  // Profile
   app.get("/api/profile", (req, res) => {
     logger.log("Guest", "FETCH_PROFILE", "User requested school profile");
     res.json(searchAgent.getProfile());
   });
 
+  // News
   app.get("/api/news", (req, res) => {
     const query = req.query.q as string;
+
     if (query) {
       logger.log("Guest", "SEARCH_NEWS", `User searched news: ${query}`);
       res.json(newsAgent.searchNews(query));
@@ -36,30 +44,37 @@ async function startServer() {
     }
   });
 
+  // Chat AI
   app.post("/api/chat", async (req, res) => {
-    const { message } = req.body;
-    logger.log("Guest", "AI_CHAT", `User: ${message}`);
-    const response = await chatbot.getChatResponse(message);
-    res.json({ response });
+    try {
+      const { message } = req.body;
+
+      logger.log("Guest", "AI_CHAT", `User: ${message}`);
+
+      const response = await chatbot.getChatResponse(message);
+
+      res.json({ response });
+    } catch (error) {
+      console.error("Chat Error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   });
 
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
-  }
+  // ================= STATIC FILE (OPTIONAL) =================
+
+  // Kalau kamu build frontend (vite build)
+  const distPath = path.join(process.cwd(), "dist");
+
+  app.use(express.static(distPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+
+  // ================= START SERVER =================
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
   });
 }
 
